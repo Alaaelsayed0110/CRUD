@@ -1,0 +1,97 @@
+<div *ngIf="isLoading" class="spinner-container">
+  <div class="spinner"></div>
+</div>
+<div class="container">
+  <div class="employee-container animate-container">
+    <h2 class="title">Employee List</h2>
+    <div class="top">
+      <button class="btn add" (click)="openAddPopup()">+ Add Employee</button>
+      <span class="number">Total Employees: {{ employees.length }}</span>
+    </div>
+    <div *ngIf="employees.length > 0; else noEmployees">
+      <div class="data ">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" [checked]="isAllSelectedOnPage()" (change)="toggle($event)" />
+              </th>
+              <th>
+                User Name <button class="edit" (click)="sortData('empName')">Sort</button>
+<span *ngIf="sortColumn === 'empName'">
+  <i class="fas" [ngClass]="{'fa-arrow-up': sortDirection === 'asc', 'fa-arrow-down': sortDirection === 'desc'}"></i>
+</span>
+              </th>
+              <th>Email</th>
+              <th>
+                Address <button class="edit" (click)="sortData('empAddress')">Sort</button>
+                <span *ngIf="sortColumn === 'empAddress'">
+  <i class="fas" [ngClass]="{'fa-arrow-up': sortDirection === 'asc', 'fa-arrow-down': sortDirection === 'desc'}"></i>
+</span>
+              </th>
+              <th>User Number</th>
+              <th colspan="2">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let emp of getPagination(); let i = index" [style.--i]="i">
+              <td>
+                <input type="checkbox" [checked]="isSelected(emp.empId)" (change)="toggleSelection(emp.empId)" />
+              </td>
+              <td>{{ emp.empName }}</td>
+              <td>{{ emp.empEmail }}</td>
+              <td>{{ emp.empAddress }}</td>
+              <td>{{ emp.empPhone }}</td>
+              <td>
+                <button class="btn  edit" (click)="openEdit(emp)"><img src="../../../assets/edit.png"/></button>
+              </td>
+              <td>
+                <button class="btn  delete" (click)="deleteEmp(emp.empId)"><img src="../../../assets/trash.png"/></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <ul class="pagination ">
+      <li class="item" [class.disabled]="currentPage === 1">
+        <a class="link" (click)="changePage(currentPage - 1)">Previous</a>
+      </li>
+      <li class="item" *ngFor="let page of totalPages" [class.active]="currentPage === page">
+        <a class="link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="item" [class.disabled]="currentPage === totalPages.length">
+        <a class="link" (click)="changePage(currentPage + 1)">Next</a>
+      </li>
+    </ul>
+
+<ng-template #noEmployees>
+  <div class="no-employee-msg">
+    <img src="https://tse1.mm.bing.net/th/id/OIP.cEvbluCvNFD_k4wC3k-_UwHaHa?pid=Api&P=0&h=220" alt="No Data"/>
+    <p>No employees found. Please add some employees to the list.</p>
+  </div>
+</ng-template>
+
+  </div>
+</div>
+
+<div class="popup" *ngIf="showEdit">
+  <div class="popup-content">
+    <app-edit
+      [employeeData]="selectedEmployee"
+      (updated)="onEmployeeUpdated()"
+      (closePopup)="closeEditPopup()">
+    </app-edit>
+  </div>
+</div>
+
+<div class="popup" *ngIf="showAdd">
+  <div class="popup-content">
+    <app-add
+      (updated)="onEmployeeAdded()"
+      (closePopup)="closeAddPopup()">
+    </app-add>
+  </div>
+</div>

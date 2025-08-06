@@ -1,0 +1,61 @@
+<div class="background-container">
+  <div class="form-wrapper">
+    <div class="edit-form-card">
+      <h3 class="form-title">Edit Employee</h3>
+      <form [formGroup]="employeeForm" (ngSubmit)="updateEmployee()" class="form-container" novalidate>
+        <div class="form-row">
+          <label for="empName">User Name</label>
+          <input id="empName" formControlName="empName" type="text" placeholder="Enter your name" />
+          <div class="error-box">
+            <p *ngIf="employeeForm.get('empName')?.getError('required') && employeeForm.get('empName')?.touched" class="error">
+              Please fill out this field
+            </p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="empEmail">Email</label>
+          <input id="empEmail" formControlName="empEmail" type="email" placeholder="Enter your email" />
+          <div class="error-box">
+            <p *ngIf="employeeForm.get('empEmail')?.getError('required') && employeeForm.get('empEmail')?.touched" class="error">
+              Please fill out this field
+            </p>
+            <p *ngIf="employeeForm.get('empEmail')?.getError('email') && employeeForm.get('empEmail')?.touched" class="error">
+              Please write a valid email
+            </p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="empAddress">Address</label>
+          <input id="empAddress" formControlName="empAddress" type="text" placeholder="Enter your address" />
+          <div class="error-box">
+            <p *ngIf="employeeForm.get('empAddress')?.getError('required') && employeeForm.get('empAddress')?.touched" class="error">
+              Please fill out this field
+            </p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="empPhone">Mobile</label>
+          <input id="empPhone" formControlName="empPhone" type="text" placeholder="Enter your number" />
+          <div class="error-box">
+            <p *ngIf="employeeForm.get('empPhone')?.getError('required') && employeeForm.get('empPhone')?.touched" class="error">
+              Please fill out this field
+            </p>
+            <p *ngIf="employeeForm.get('empPhone')?.getError('pattern') && employeeForm.get('empPhone')?.touched" class="error">
+              Please enter a valid number (11 digits, starts with 010, 011, or 012)
+            </p>
+          </div>
+        </div>
+
+        <div class="form-actions">
+<button [disabled]="employeeForm.invalid">Save</button>
+
+          <button type="button" (click)="cancel()" class="btn-cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

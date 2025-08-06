@@ -1,0 +1,50 @@
+<div class="background-container">
+  <div class="form-wrapper">
+    <h3 class="form-title">Add New Employee</h3>
+
+    <form [formGroup]="AddForm" (ngSubmit)="AddEmployee(AddForm)" class="form-container">
+      <label>User Name</label>
+      <input formControlName="empName" type="text" placeholder="Enter your name" />
+      <div class="error-box">
+        <p *ngIf="AddForm.get('empName')?.getError('required') && AddForm.get('empName')?.touched" class="error">
+          Please fill out this field
+        </p>
+      </div>
+
+      <label>Email</label>
+      <input formControlName="empEmail" type="email" placeholder="Enter your email" />
+      <div class="error-box">
+        <p *ngIf="AddForm.get('empEmail')?.getError('required') && AddForm.get('empEmail')?.touched" class="error">
+          Please fill out this field
+        </p>
+        <p *ngIf="AddForm.get('empEmail')?.getError('email') && AddForm.get('empEmail')?.touched" class="error">
+          Please write a valid email
+        </p>
+      </div>
+
+      <label>User Address</label>
+      <input formControlName="empAddress" type="text" placeholder="Enter your address" />
+      <div class="error-box">
+        <p *ngIf="AddForm.get('empAddress')?.getError('required') && AddForm.get('empAddress')?.touched" class="error">
+          Please fill out this field
+        </p>
+      </div>
+
+      <label>User Number</label>
+      <input formControlName="empPhone" type="text" placeholder="Enter your number" />
+      <div class="error-box">
+        <p *ngIf="AddForm.get('empPhone')?.getError('required') && AddForm.get('empPhone')?.touched" class="error">
+          Please fill out this field
+        </p>
+        <p *ngIf="AddForm.get('empPhone')?.getError('pattern') && AddForm.get('empPhone')?.touched" class="error">
+          Please enter a valid number
+        </p>
+      </div>
+
+      <div class="buttons-row">
+        <button type="submit" [disabled]="AddForm.invalid">Add</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
